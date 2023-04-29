@@ -33,6 +33,7 @@
 		0797D2D029FD91A4004B6372 /* SignUpCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0797D2CF29FD91A4004B6372 /* SignUpCredentials.swift */; };
 		0797D2D329FD9612004B6372 /* EmailModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0797D2D229FD9612004B6372 /* EmailModifier.swift */; };
 		0797D2D529FD962D004B6372 /* NoAutoCompleteModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0797D2D429FD962D004B6372 /* NoAutoCompleteModifier.swift */; };
+		0797D2D729FD9D16004B6372 /* AccountInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0797D2D629FD9D16004B6372 /* AccountInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +65,7 @@
 		0797D2CF29FD91A4004B6372 /* SignUpCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCredentials.swift; sourceTree = "<group>"; };
 		0797D2D229FD9612004B6372 /* EmailModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailModifier.swift; sourceTree = "<group>"; };
 		0797D2D429FD962D004B6372 /* NoAutoCompleteModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoAutoCompleteModifier.swift; sourceTree = "<group>"; };
+		0797D2D629FD9D16004B6372 /* AccountInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +212,7 @@
 			children = (
 				0797D2BF29FD8500004B6372 /* Authentication.swift */,
 				0797D2C129FD8562004B6372 /* KeychainManager.swift */,
+				0797D2D629FD9D16004B6372 /* AccountInfo.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 				0797D28829FD70C5004B6372 /* recipe_appApp.swift in Sources */,
 				0797D2BA29FD7A4F004B6372 /* ColorExtensions.swift in Sources */,
 				0797D2BC29FD7EF8004B6372 /* LoginViewModel.swift in Sources */,
+				0797D2D729FD9D16004B6372 /* AccountInfo.swift in Sources */,
 				0797D2D529FD962D004B6372 /* NoAutoCompleteModifier.swift in Sources */,
 				0797D2D029FD91A4004B6372 /* SignUpCredentials.swift in Sources */,
 			);

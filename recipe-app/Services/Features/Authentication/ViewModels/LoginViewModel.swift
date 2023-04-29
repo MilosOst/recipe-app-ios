@@ -18,15 +18,15 @@ class LoginViewModel: ObservableObject {
     }
     
     /// Attempt to login with the current credentials.
-    /// - Returns: Boolean indicating whether login was successful
-    func attemptLogin() async -> Bool {
+    /// - Returns: AccountInfo of logged in user
+    func attemptLogin() async -> AccountInfo? {
         isLoading = true
         errorMessage = nil
         
         do {
-            try await APIService.shared.login(credentials)
+            let info: AccountInfo = try await APIService.shared.login(credentials)
             isLoading = false
-            return true
+            return info
         } catch APIError.unauthorized {
             errorMessage = "Invalid login credentials"
         } catch APIError.httpStatusCodeFailed(let err) {
@@ -36,6 +36,6 @@ class LoginViewModel: ObservableObject {
         }
         
         isLoading = false
-        return false
+        return nil
     }
 }

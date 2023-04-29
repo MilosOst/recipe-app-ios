@@ -57,7 +57,7 @@ struct SplashScreenView: View {
                 .padding()
                 .background(.black.opacity(0.7))
                 .cornerRadius(16)
-            .accessibilityAddTraits([.isButton])
+                .accessibilityAddTraits([.isButton])
         }
     }
 }

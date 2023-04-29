@@ -14,7 +14,24 @@ class APIService {
     private init() {}
     
     private var token: String {
-        return ""
+        return KeychainManager.standard.getToken() ?? ""
+    }
+    
+    private func fetch<T: Decodable>(url: URL) async throws -> T {
+        var req = URLRequest(url: url)
+        req.setValue(token, forHTTPHeaderField: "Authorization")
+        
+        let (data, response) = try await URLSession.shared.data(for: req)
+        try validateHTTPResponse(data: data, response: response)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z"
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(dateFormatter)
+        
+        return try decoder.decode(T.self, from: data)
     }
     
     private func validateHTTPResponse(data: Data, response: URLResponse) throws {
@@ -42,7 +59,7 @@ class APIService {
         }
     }
     
-    func login(_ credentials: LoginCredentials) async throws {
+    func login(_ credentials: LoginCredentials) async throws -> AccountInfo {
         guard let url = URL(string: "\(baseURL)/auth/login") else {
             throw APIError.invalidURL
         }
@@ -58,7 +75,7 @@ class APIService {
         
         try KeychainManager.standard.saveToken(jwtToken)
         
-        return
+        return try await APIService.shared.getMe()
     }
     
     func register(_ credentials: SignUpCredentials) async throws {
@@ -73,5 +90,13 @@ class APIService {
         
         let (data, response) = try await URLSession.shared.upload(for: req, from: encoded)
         try validateHTTPResponse(data: data, response: response)
+    }
+    
+    func getMe() async throws -> AccountInfo {
+        guard let url = URL(string: "\(baseURL)/me") else {
+            throw APIError.invalidURL
+        }
+        
+        return try await fetch(url: url)
     }
 }

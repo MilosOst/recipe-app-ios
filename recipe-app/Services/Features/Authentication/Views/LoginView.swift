@@ -10,6 +10,7 @@ import SwiftUI
 struct LoginView: View {
     @StateObject private var vm = LoginViewModel()
     @EnvironmentObject var auth: Authentication
+    @EnvironmentObject var account: AccountInfo
     
     var body: some View {
         VStack(spacing: 16) {
@@ -33,8 +34,9 @@ struct LoginView: View {
     }
     
     private func login() async {
-        if (await vm.attemptLogin()) {
+        if let accountInfo = await vm.attemptLogin() {
             withAnimation {
+                account.updateAccountInfo(from: accountInfo)
                 auth.updateValidation(success: true)
             }
         }
