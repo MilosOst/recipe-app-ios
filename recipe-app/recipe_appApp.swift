@@ -9,9 +9,19 @@ import SwiftUI
 
 @main
 struct recipe_appApp: App {
+    @StateObject private var auth = Authentication()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Group {
+                if auth.isValidated {
+                    ContentView()
+                        .environmentObject(auth)
+                } else {
+                    SplashScreenView()
+                        .environmentObject(auth)
+                }
+            }
         }
     }
 }
