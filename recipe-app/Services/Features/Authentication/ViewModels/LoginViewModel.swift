@@ -7,12 +7,6 @@
 
 import Foundation
 
-struct LoginCredentials: Codable {
-    var usernameOrEmail = ""
-    var password = ""
-    
-}
-
 @MainActor
 class LoginViewModel: ObservableObject {
     @Published var credentials = LoginCredentials()

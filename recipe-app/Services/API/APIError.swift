@@ -16,6 +16,7 @@ enum APIError: Error, LocalizedError, Identifiable {
     case badRequest(errors: [APIValidationError])
     case unauthorized
     case notFound
+    case conflict(errors: [APIValidationError])
     case httpStatusCodeFailed(error: APIErrorMessage)
     
     var id: String {
@@ -32,6 +33,8 @@ enum APIError: Error, LocalizedError, Identifiable {
             return "(401) - Unauthorized"
         case .notFound:
             return "(404) - Not Found"
+        case .conflict(let errors):
+            return "(409) - \(errors.first?.message ?? "Bad Request"))"
         case .httpStatusCodeFailed(let error):
             return error.message
         }

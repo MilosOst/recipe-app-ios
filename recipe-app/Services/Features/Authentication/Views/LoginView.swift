@@ -28,6 +28,8 @@ struct LoginView: View {
         }
         .padding()
         .allowsHitTesting(!vm.isLoading)
+        .navigationTitle("Log In")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     private func login() async {

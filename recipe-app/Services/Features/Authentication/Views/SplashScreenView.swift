@@ -49,14 +49,16 @@ struct SplashScreenView: View {
     }
     
     private var signUpButton: some View {
-        Text("Sign Up")
-            .frame(maxWidth: .infinity)
-            .font(.custom("Poppins-Medium", size: 22))
-            .foregroundColor(.white)
-            .padding()
-            .background(.black.opacity(0.7))
-            .cornerRadius(16)
+        NavigationLink(destination: SignUpView()) {
+            Text("Sign Up")
+                .frame(maxWidth: .infinity)
+                .font(.custom("Poppins-Medium", size: 22))
+                .foregroundColor(.white)
+                .padding()
+                .background(.black.opacity(0.7))
+                .cornerRadius(16)
             .accessibilityAddTraits([.isButton])
+        }
     }
 }
 

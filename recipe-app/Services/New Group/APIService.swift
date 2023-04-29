@@ -23,9 +23,13 @@ class APIService {
         }
         
         switch httpResponse.statusCode {
-        case 400:
+        case 400, 409:
             let errors = (try JSONDecoder().decode(APIValidationErrorResponse.self, from: data)).errors
-            throw APIError.badRequest(errors: errors)
+            if httpResponse.statusCode == 400 {
+                throw APIError.badRequest(errors: errors)
+            } else {
+                throw APIError.conflict(errors: errors)
+            }
         case 401:
             throw APIError.unauthorized
         case 404:
@@ -55,5 +59,19 @@ class APIService {
         try KeychainManager.standard.saveToken(jwtToken)
         
         return
+    }
+    
+    func register(_ credentials: SignUpCredentials) async throws {
+        guard let url = URL(string: "\(baseURL)/auth/register") else {
+            throw APIError.invalidURL
+        }
+        
+        var req = URLRequest(url: url)
+        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        req.httpMethod = "POST"
+        let encoded = try JSONEncoder().encode(credentials)
+        
+        let (data, response) = try await URLSession.shared.upload(for: req, from: encoded)
+        try validateHTTPResponse(data: data, response: response)
     }
 }
