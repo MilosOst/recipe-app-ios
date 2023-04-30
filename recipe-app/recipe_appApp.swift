@@ -26,9 +26,11 @@ struct recipe_appApp: App {
                     if auth.isValidated {
                         ContentView()
                             .environmentObject(auth)
+                            .environmentObject(account)
                     } else {
                         SplashScreenView()
                             .environmentObject(auth)
+                            .environmentObject(account)
                     }
                 }
             }

@@ -5,7 +5,7 @@
 //  Created by Milos on 2023-04-29.
 //
 
-import Foundation
+import UIKit
 
 class APIService {
     static let shared = APIService()
@@ -32,6 +32,17 @@ class APIService {
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
         
         return try decoder.decode(T.self, from: data)
+    }
+    
+    private func postData<T: Encodable>(url: URL, data: T) async throws {
+        var req = URLRequest(url: url)
+        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        req.httpMethod = "POST"
+        req.setValue(token, forHTTPHeaderField: "Authorization")
+        let encoded = try JSONEncoder().encode(data)
+        
+        let (data, response) = try await URLSession.shared.upload(for: req, from: encoded)
+        try validateHTTPResponse(data: data, response: response)
     }
     
     private func validateHTTPResponse(data: Data, response: URLResponse) throws {
@@ -98,5 +109,31 @@ class APIService {
         }
         
         return try await fetch(url: url)
+    }
+    
+    
+    /// Attempt to upload the image provided and return the image name.
+    /// - Parameter image: Image to upload
+    /// - Returns: name of image to be sent to API
+    func uploadRecipeImage(image: UIImage) async throws -> String {
+        guard let url = URL(string: "\(baseURL)/recipe/image") else {
+            throw APIError.invalidURL
+        }
+        
+        var req = MultipartDataManager.shared.generateRequest(image: image, url: url)
+        req.setValue(token, forHTTPHeaderField: "Authorization")
+        
+        let (data, response) = try await URLSession.shared.data(for: req)
+        try validateHTTPResponse(data: data, response: response)
+        
+        return try JSONDecoder().decode(String.self, from: data)
+    }
+    
+    func uploadRecipe(recipe: RecipeSubmission) async throws {
+        guard let url = URL(string: "\(baseURL)/recipe") else {
+            throw APIError.invalidURL
+        }
+        
+        return try await postData(url: url, data: recipe)
     }
 }
