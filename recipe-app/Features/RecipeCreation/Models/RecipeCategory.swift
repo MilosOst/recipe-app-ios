@@ -34,4 +34,23 @@ enum RecipeCategory: String, Codable, CaseIterable, Identifiable, Hashable {
             return "7"
         }
     }
+    
+    var emoji: String {
+        switch self {
+        case .breakfast:
+            return "🥞"
+        case .lunch:
+            return "🥞"
+        case .dinner:
+            return "🥞"
+        case .dessert:
+            return "🥞"
+        case .soup:
+            return "🥞"
+        case .salad:
+            return "🥞"
+        case .appetizer:
+            return "🥞"
+        }
+    }
 }

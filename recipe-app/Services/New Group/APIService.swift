@@ -136,4 +136,15 @@ class APIService {
         
         return try await postData(url: url, data: recipe)
     }
+    
+    func searchRecipes(name: String) async throws -> [RecipeSearchResult] {
+        guard var urlComponents = URLComponents(string: "\(baseURL)/recipe") else {
+            throw APIError.invalidURL
+        }
+        
+        urlComponents.queryItems = [.init(name: "name", value: name)]
+        guard let url = urlComponents.url else { throw APIError.invalidURL }
+        
+        return try await fetch(url: url)
+    }
 }
